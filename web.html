@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王博雅院士个人主页</title>
+    <style>
+        /* 基础样式设置 */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --text-main: #1f2937;
+            --text-secondary: #4b5563;
+            --bg-light: #f9fafb;
+            --bg-card: #ffffff;
+            --border-light: #e5e7eb;
+            --spacing-base: 1rem;
+            --radius-lg: 1rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: var(--bg-light);
+        }
+
+        /* 布局容器 */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: var(--spacing-base);
+        }
+
+        /* 头部区域样式 */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: calc(var(--spacing-base) * 4) var(--spacing-base);
+            border-radius: var(--radius-lg);
+            margin-bottom: calc(var(--spacing-base) * 2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing-base) * 3);
+        }
+
+        .profile-image {
+            width: 440px;
+            height: 240px;
+            border-radius: calc(var(--radius-lg) * 1.25);
+            overflow: hidden;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info h1 {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-base);
+        }
+
+        /* 标签样式 */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: calc(var(--spacing-base) * 0.75);
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: calc(var(--spacing-base) * 0.5) var(--spacing-base);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s;
+        }
+
+        /* 卡片样式 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: calc(var(--spacing-base) * 1.5);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: calc(var(--spacing-base) * 1.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin-bottom: var(--spacing-base);
+            padding-bottom: var(--spacing-base);
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        /* 统计数据样式 */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: calc(var(--spacing-base) * 1.25);
+            margin: calc(var(--spacing-base) * 1.5) 0;
+        }
+
+        .stat-item {
+            background: var(--bg-light);
+            padding: calc(var(--spacing-base) * 1.25);
+            border-radius: calc(var(--radius-lg) * 0.75);
+            text-align: center;
+        }
+
+        .stat-item .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: calc(var(--spacing-base) * 0.5);
+        }
+
+        /* 列表样式 */
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-base);
+            padding: var(--spacing-base);
+            margin-bottom: calc(var(--spacing-base) * 0.75);
+            background: var(--bg-light);
+            border-radius: calc(var(--radius-lg) * 0.75);
+            transition: all 0.2s;
+        }
+
+        .list-item::before {
+            content: "";
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            margin-top: 6px;
+            flex-shrink: 0;
+        }
+
+        /* 时间线样式 */
+        .timeline {
+            border-left: 2px solid var(--border-light);
+            padding-left: calc(var(--spacing-base) * 1.25);
+            margin-left: 10px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: calc(var(--spacing-base) * 1.5);
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: calc(var(--spacing-base) * -1.7);
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid white;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: calc(var(--spacing-base) * 0.5);
+            }
+
+            .hero {
+                padding: calc(var(--spacing-base) * 2) var(--spacing-base);
+            }
+
+            .profile {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-image {
+                width: 180px;
+                height: 180px;
+            }
+
+            .profile-info h1 {
+                font-size: 2rem;
+            }
+
+            .tags {
+                justify-content: center;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* 项目卡片样式 */
+        .project-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 8px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .project-meta span {
+            background: white;
+            padding: 4px 12px;
+            border-radius: 100px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* 研究领域样式 */
+        .research-area {
+            padding: var(--spacing-base);
+            border-radius: calc(var(--radius-lg) * 0.75);
+            background: var(--bg-light);
+            margin-bottom: var(--spacing-base);
+            border-left: 4px solid var(--primary);
+            transition: all 0.2s;
+        }
+
+        .research-area:hover {
+            transform: translateX(4px);
+            background: var(--border-light);
+        }
+
+        /* 美食展示样式 */
+        .food-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-base);
+            margin-top: calc(var(--spacing-base) * 1.5);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: calc(var(--radius-lg) * 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* 合作伙伴卡片样式 */
+        .cooperation {
+            background: var(--bg-light);
+            padding: var(--spacing-base);
+            border-radius: calc(var(--radius-lg) * 0.75);
+            margin-bottom: var(--spacing-base);
+        }
+
+        .cooperation h3 {
+            color: var(--primary);
+            margin-bottom: calc(var(--spacing-base) * 0.75);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 个人信息区 -->
+        <section class="hero">
+            <div class="profile">
+                <div class="profile-image">
+                    <img src="123.jpg" alt="王博雅院士照片">
+                </div>
+                <div class="profile-info">
+                    <h1>王博雅 院士</h1>
+                    <p>中国科学院院士 | 东北大学资源环境研究所所长 | 工业粉尘防治专家</p>
+                    <div class="tags">
+                        <span class="tag">教育部长江学者</span>
+                        <span class="tag">国家杰出青年科学基金获得者</span>
+                        <span class="tag">东北大学特聘教授</span>
+                        <span class="tag">工业除尘技术专家</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 研究所概况 -->
+        <section class="card">
+            <h2 class="card-title">研究所概况</h2>
+            <p>东北大学资源环境研究所是国家重点研究基地，专注于工业粉尘防治、环境保护和资源循环利用等领域的前沿研究。研究所整合了多学科资源，建立了完善的科研创新体系。</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="number">30+</div>
+                    <div class="label">合作企业</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">100+</div>
+                    <div class="label">专利技术</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">20+</div>
+                    <div class="label">产业化项目</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">50+</div>
+                    <div class="label">研究人员</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 主要内容网格 -->
+        <div class="grid">
+            <!-- 研究领域 -->
+            <section class="card">
+                <h2 class="card-title">研究领域</h2>
+                <div class="list">
+                    <div class="list-item">
+                        <div>
+                            <strong>工业粉尘防治技术</strong>
+                            <p>研发新型除尘设备和控制系统，提高粉尘治理效率。重点突破高温、高压、强腐蚀等极端条件下的粉尘治理难题。</p>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>智能监测与控制</strong>
+                            <p>开发基于人工智能的粉尘监测预警系统，实现工业污染物的智能化管理和精准控制。</p>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>环境友好材料</strong>
+                            <p>研究开发新型环保滤材和功能材料，提升除尘效率的同时降低能源消耗。</p>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>资源循环利用</strong>
+                            <p>探索工业粉尘资源化利用新途径，开发废弃物再利用技术，推动循环经济发展。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 重点项目 -->
+            <section class="card">
+                <h2 class="card-title">重点项目</h2>
+                <div class="project">
+                    <div class="list-item">
+                        <div>
+                            <strong>新一代智能除尘系统研发</strong>
+                            <p>与沈阳因斯福合作开发的智能化除尘系统，采用AI算法优化控制策略，显著提升除尘效率。</p>
+                            <div class="project-meta">
+                                <span>进行中</span>
+                                <span>项目经费：2000万</span>
+                                <span>预期完成：2025年</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>工业粉尘控制国家重点研发计划</strong>
+                            <p>针对钢铁、水泥等重点行业粉尘治理难题，开展系统性研究，建立完整的技术解决方案。</p>
+                            <div class="project-meta">
+                                <span>国家级</span>
+                                <span>项目周期：2024-2027</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 学术成果 -->
+            <section class="card">
+                <h2 class="card-title">学术成果</h2>
+                <div class="list">
+                    <div class="list-item">
+                        <div>
+                            <strong>高水平论文</strong>
+                            <p>发表SCI论文200余篇，其中包括Nature子刊3篇，顶级期刊论文30余篇，总引用超过10000次。</p>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>专利成果</strong>
+                            <p>授权发明专利50项，实用新型专利30项，多项成果实现产业化应用。</p>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>科技奖励</strong>
+                            <p>获国家科技进步二等奖1项，省部级科技奖励5项。主持制定国家标准2项，行业标准3项。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 团队建设 -->
+            <section class="card">
+                <h2 class="card-title">团队建设</h2>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="number">5</div>
+                        <div class="label">教授</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">8</div>
+                        <div class="label">副教授</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">15</div>
+                        <div class="label">博士生</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">25</div>
+                        <div class="label">硕士生</div>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="list-item">
+                        <div>
+                            <strong>人才培养</strong>
+                            <p>已培养博士30余名，硕士100余名，多人获得国家级奖学金。</p>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>国际交流</strong>
+                            <p>与美国、德国等多个国家高校建立合作关系，开展学术交流。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 最新动态 -->
+            <section class="card">
+                <h2 class="card-title">最新动态</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">2024年3月</div>
+                        <strong>新型除尘技术获国家发明专利授权</strong>
+                        <p>研发的高效低耗除尘装置获得国家发明专利授权</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2024年2月</div>
+                        <strong>举办学术研讨会</strong>
+                        <p>成功举办"工业粉尘控制技术创新发展"学术研讨会</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2024年1月</div>
+                        <strong>重大项目立项</strong>
+                        <p>获批国家重点研发计划项目</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 社会服务 -->
+            <section class="card">
+                <h2 class="card-title">社会服务</h2>
+                <div class="list">
+                    <div class="list-item">
+                        <div>
+                            <strong>学术兼职</strong>
+                            <p>担任多个国际期刊编委，国家重点研发计划专家组成员。</p>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>技术咨询</strong>
+                            <p>为30余家企业提供技术咨询服务，解决工程实际问题。</p>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>标准制定</strong>
+                            <p>参与制定多项国家和行业标准，推动行业技术进步。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 个人兼职 -->
+            <section class="card">
+                <h2 class="card-title">生活之趣</h2>
+                <div class="list">
+                    <div class="list-item">
+                        <div>
+                            <strong>美食探索</strong>
+                            <p>经营一家私房烧烤店，以独特的配方和精湛的烹饪技艺，将工程师的精确和美食的艺术完美结合。主打特色烤鱼豆腐，将传统美食赋予新的创意。</p>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>匠心传承</strong>
+                            <p>将科研中追求的精益求精态度带入美食制作，每一道菜品都像一个小型的工程项目，从食材选择到烹饪工艺都严格把控。</p>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>分享理念</strong>
+                            <p>不定期举办美食分享会，与师生和同行分享美食制作心得，展示科研工作者的生活情趣。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="food-gallery">
+                    <img src="/api/placeholder/200/150" alt="特色烤鱼豆腐" class="12.jpg">
+                    <img src="/api/placeholder/200/150" alt="私房牛肉面" class="125.jpg">
+                    <img src="/api/placeholder/200/150" alt="匠心制作" class="gallery-img">
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
